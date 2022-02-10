@@ -1,0 +1,49 @@
+﻿@page "/"
+@using MyExcelReader.Data
+
+@inject EmployeeService EmployeeService
+
+@if (employees == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Designation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in employees)
+            {
+            <tr>
+                <td>@emp.EmpId</td>
+                <td>@emp.Name</td>
+                <td>@emp.Department</td>
+                <td>@emp.Designation</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    public List<MyData> employees = new List<MyData>();
+
+    private List<MyData> ReadExcel()
+    {
+        employees = EmployeeService.GetMyDatas();
+        return employees;
+    }
+
+    protected override void OnInitialized()
+    {
+        ReadExcel();
+    }
+}
